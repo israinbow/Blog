@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{%block main%}
+<ol class="breadcrumb">
+    <li><a href="/admin">管理首页</a></li>
+    <li><span>用户列表</span></li>
+</ol>
+
+<h3>用户列表</h3>
+
+<table class="table table-hover table-striped">
+    <tr>
+        <td>ID</td>
+        <td>用户名</td>
+        <td>密码</td>
+        <td>是否是管理员</td>
+    </tr>
+
+    {% for user in allUser %}
+    <tr>
+        <td>{{user.uid}}</td>
+        <td>{{user.uname}}</td>         <!--存数据库的时候，就md5加密-->
+        <td>{{user.pwd}}</td>           <!--请把密码md5加密-->
+        <td>{% if user.isAdmin %}是{%else%}否{%endif%}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<!--使用模版引擎引入页面-->
+{% include "page.html" %}
+
+{%endblock%}

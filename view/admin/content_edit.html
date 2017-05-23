@@ -1,0 +1,46 @@
+{% extends 'layout.html' %}
+{% block main %}
+<ol class="breadcrumb">
+    <li><a href="/admin">管理首页</a></li>
+    <li><span>内容修改</span></li>
+</ol>
+
+<h3>内容修改</h3>
+<br/><br/>
+
+<!--在form表单内，类型为submit的按钮会自动提交表单，表单没有写url，那么URL就是自己本身页面，form表单默认为post请求，必须render一个地址-->
+<form method="post">
+    <div class="form-group">
+        <label for="title">分类：</label>
+        <select name="category" id="category" class="form-control">
+            {%for category in categories%}
+                {%if content.tid.toString() == category.tid.toString()%}
+                    <!--意味着这个分类就是修改的分类-->
+                    <option value="{{category.tid}}">{{category.tname}}</option>
+                {%else%}
+                    <option value="{{category.tid}}">{{category.tname}}</option>
+                {%endif%}
+            {%endfor%}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="title">标题：</label>
+        <input type="text" value="{{content.title}}" calss="form-control" id="title" placeholder="请输入内容标题" name="title"/>
+    </div>
+
+    <div class="form-group">
+        <label for="description">简介：</label>
+        <textarea name="description" id="description" class="form-control" rows="5" placeholder="请输入内容简介">{{content.description}}</textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="content">内容：</label>
+        <textarea name="content" id="content" class="form-control" rows="10" placeholder="请输入内容">{{content.content}}</textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">提交</button>
+    <br/><br/>
+
+</form>
+{%endblock%}

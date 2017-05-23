@@ -1,0 +1,119 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>博客</title>
+    <link href="../../public/css/main.css" rel="stylesheet" type="text/css">
+    <link href="../../public/fontAwesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <script src="../../public/js/jquery-1.12.4.min.js"></script>
+    <script src="../../public/js/index.js"></script>
+</head>
+
+<body>
+
+<header>
+    <div class="backimg"><img src="../../public/images/IMG_0293.JPG"></div>
+    <div class="logo"><span></span><img src="../../public/images/00002637.png"></div>
+</header>
+
+<nav>
+    <div class="menu">
+        <a href="/">首页</a>
+        {% for type in categories %}
+        <a>{{type.tname}}</a>
+        {% endfor %}
+    </div>
+</nav>
+
+<main class="clear">
+    <div class="mainLeft">
+
+        {%for content in contents%}
+        <div class="listBox">
+            <h1>{{content.title}}</h1>
+            <p class="colDefault">
+                作者：<span class="colInfo">{{content.uname}}</span>
+                时间：<span class="colInfo">{{content.addTime | date('Y年m月n日 H:i:s',-8*60)}}</span>
+                阅读：<span class="colInfo">9998</span>
+                评论：<span class="colInfo">{%if content.comments%}{{content.comments}}{%else%}0{%endif%}</span>
+            </p>
+            <dfn><p>{{content.description}}</p></dfn>
+            <div class="function"><a href="/view?contentid={{content.cid}}">阅读全文</a></div>
+        </div>
+        {%endfor%}
+
+
+        <div class="pager">
+            <ul class="clear">
+
+                <li class="previous">
+                    {%if page<=1%}
+                    <span>没有上一页了</span>
+                    {%else%}
+                    <a href="/?page={{page-1}}">上一页</a>
+                    {%endif%}
+                </li>
+
+                <li>
+                    <strong> {{page}} / {{pages}} </strong>
+                </li>
+
+                <li class="next">
+                    {%if page>=pages%}
+                    <span>没有下一页了</span>
+                    {%else%}
+                    <a href="/?page={{page+1}}">下一页</a>
+                    {%endif%}
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="mainRight">
+        <!--而逻辑判断，是-->
+        {% if userInfo._id %}
+        <div class="rightBox" id="userInfo" ">
+            <div class="title"><span>用户信息</span></div>
+                                                    <!--在模版引擎里面，取值，是-->
+            <p class="userName"><span class="colDark">{{userInfo.uname}}</span></p>
+            {% if userInfo.isAdmin %}
+            <p class="adminInfo">
+                <p class="colDanger">您好，管理员！</p>
+                <a href="/admin">进入管理界面</a>
+            </p>
+            {% else %}
+            <p><span class="colDanger">你好，欢迎光临我的博客！</span></p>
+            {%endif%}
+            <p><span class="colDark"><a href="javascript:;" id="logout">退出</a></span></p>
+        </div>
+        {% else %}
+        <div class="rightBox" id="loginBox">
+            <div class="title"><span>登录</span></div>
+            <div class="line"><span class="colDark">用户名：</span><input name="username" type="text" /><em></em></div>
+            <div class="line"><span class="colDark">密码：</span><input name="password" type="password" /><em></em></div>
+            <div class="line"><span class="colDark"></span><button>登 录</button></div>
+            <p class="textRight">还没注册？<a href="javascript:;" class="colMint">马上注册</a>　</p>
+            <p class="colWarning textCenter"></p>
+        </div>
+        <div class="rightBox" id="registerBox" style="display: none;">
+            <div class="title"><span>注册</span></div>
+            <div class="line"><span class="colDark">用户名：</span><input name="username" type="text" /></div>
+            <div class="line"><span class="colDark">密码：</span><input name="password" type="password" /></div>
+            <div class="line"><span class="colDark">确认：</span><input name="repassword" type="password" /></div>
+            <div class="line"><span class="colDark"></span><button>注 册</button></div>
+            <p class="textRight">已有账号？<a href="javascript:;" class="colMint">马上登录</a>　</p>
+            <p class="colWarning textCenter" style="display: none;">正在注册中...</p>
+        </div>
+
+        {%endif%}
+        <div class="rightBox">
+            <div class="title"><span>社区</span></div>
+            <p><a href="" target="_blank" class="colDanger">百度一下</a></p>
+            <p><a href="" target="_blank" class="colDanger">你就知道</a></p>
+        </div>
+    </div>
+</main>
+
+<div class="copyright textCenter">Copyright © baidu.com 版权所有 | 京xxx备xxxxxxxxx号</div>
+</body>
+</html>

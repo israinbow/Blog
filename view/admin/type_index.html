@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+
+{% block main %}
+
+<ol class="breadcrumb">
+    <li><a href="/">管理首页</a></li>
+    <li><span>分类列表</span></li>
+</ol>
+
+<h3>分类列表</h3>
+
+<table class="table table-hover table-striped">
+    {% if msg %}
+    <p style="text-align: center">{{msg}}</p>
+    {% else %}
+    <tr>
+        <th>ID</th>
+        <th>分类名称</th>
+        <th>操作</th>
+    </tr>
+
+    {% for category in categories %}
+    <tr>
+        <td>{{category.tid.toString()}}</td>
+        <td>{{category.tname}}</td>
+        <td>
+            <a href="javascript:edit('{{category.tname}}','{{category.tid.toString()}}')">修改</a> |
+            <a href="/admin/category/delete?id={{category.tid.toString()}}">删除</a>
+        </td>            <!--form表单提交的数据用req.body获取，字符串拼接提交的书记用req.query获取-->
+    </tr>
+    {%endfor%}
+    {%endif%}
+</table>
+
+<script>
+    function edit(tname,tid) {
+        var name=prompt("请问，您需要把'"+tname+"'修改为：",tname);
+        if(!name){
+            alert("类型名不能为空");
+        }else if(name==tname){
+            return;
+        }else{
+            $.ajax({
+                type:"post",
+                url:"/admin/type/edit",
+                data:{
+                    newname:name,
+                    tid:tid
+                },
+                dataType:"json",
+                success:function (result) {
+                    if(result.code==1){
+                        alert(result.message);
+                    }else if(result.code==2){
+                        window.location.reload();
+                    }
+
+                }
+            });
+        }
+    }
+</script>
+
+{% include 'page.html' %}
+
+{%endblock%}

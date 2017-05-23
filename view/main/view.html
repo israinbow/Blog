@@ -1,0 +1,136 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>博客</title>
+    <link href="../../public/css/main.css" rel="stylesheet" type="text/css">
+    <link href="../../public/fontAwesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <script src="../../public/js/jquery-1.12.4.min.js"></script>
+    <script src="../../public/js/index.js"></script>
+</head>
+
+<body>
+
+<header>
+    <div class="backimg"><img src="../../public/images/IMG_0293.JPG"></div>
+    <div class="logo"><span></span><img src="../../public/images/00002637.png"></div>
+</header>
+
+<nav>
+    <div class="menu">
+        {% for category in categories %}
+            {%if tid == category.tid%}
+                <a href="/" class="focus">{{category.tname}}</a>
+            {%else%}
+                <a href="/">{{category.tname}}</a>
+            {%endif%}
+        {%endfor%}
+    </div>
+</nav>
+
+<main class="clear">
+    <div class="mainLeft">
+        <div class="listBox">
+            <h1>{{content.title}}</h1>
+            <p class="colDefault">
+                作者：<span class="colInfo">{{content.uname}}</span>
+                时间：<span class="colInfo">{{content.addTime | date('Y年m月n日 H:i:s',-8*60)}}</span>
+                阅读：<span class="colInfo">9998</span>
+                评论：<span class="colInfo">{%if content.comments%}{{content.comments}}{%else%}0{%endif%}</span>
+            </p>
+            <dfn><p>{{content.content}}</p></dfn>
+        </div>
+
+        <div class="listBox message">
+            <h3 class="textLeft"><strong>评论</strong><span class="em">一共有<em id="messageCount">0</em>条评论</span></h3>
+            {%if userInfo._id%}
+            <p class="textLeft">{{userInfo.uname}}</p>
+            <p class="textLeft clear">
+                <textarea id="messageContent"></textarea>
+                <input type="hidden" id="contentId" value="{{content.cid}}" />
+                <button id="messageBtn" class="submit">提交</button>
+            </p>
+            {%else%}
+            <p class="bgDanger" style="line-height:30px;">你还没有登陆，请先登陆</p>
+            {%endif%}
+
+            <div class="messageList">
+                {%for comment in comments%}
+                <div class="messageBox">
+                    <p class="name clear">
+                        <span class="f1">{{comment.uname}}</span>
+                        <span class="fr">{{comment.ttime | date('Y年m月n日 H:i:s',-8*60)}}</span>
+                    </p>
+                    <p>{{comment.content}}</p>
+                </div>
+                {%endfor%}
+            </div>
+        </div>
+    </div>
+
+
+    <div class="mainRight">
+        <!--而逻辑判断，是-->
+        {% if userInfo._id %}
+        <div class="rightBox" id="userInfo" >
+        <div class="title"><span>用户信息</span></div>
+        <!--在模版引擎里面，取值，是-->
+        <p class="userName"><span class="colDark">{{userInfo.uname}}</span></p>
+        {% if userInfo.isAdmin %}
+        <p class="adminInfo">
+        <p class="colDanger">您好，管理员！</p>
+        <a href="/admin">进入管理界面</a>
+        </p>
+        {% else %}
+        <p><span class="colDanger">你好，欢迎光临我的博客！</span></p>
+        {%endif%}
+        <p><span class="colDark"><a href="javascript:;" id="logout">退出</a></span></p>
+    </div>
+    {% else %}
+    <div class="rightBox" id="loginBox">
+        <div class="title"><span>登录</span></div>
+        <div class="line"><span class="colDark">用户名：</span><input name="username" type="text" /><em></em></div>
+        <div class="line"><span class="colDark">密码：</span><input name="password" type="password" /><em></em></div>
+        <div class="line"><span class="colDark"></span><button>登 录</button></div>
+        <p class="textRight">还没注册？<a href="javascript:;" class="colMint">马上注册</a>　</p>
+        <p class="colWarning textCenter"></p>
+    </div>
+    <div class="rightBox" id="registerBox" style="display: none;">
+        <div class="title"><span>注册</span></div>
+        <div class="line"><span class="colDark">用户名：</span><input name="username" type="text" /></div>
+        <div class="line"><span class="colDark">密码：</span><input name="password" type="password" /></div>
+        <div class="line"><span class="colDark">确认：</span><input name="repassword" type="password" /></div>
+        <div class="line"><span class="colDark"></span><button>注 册</button></div>
+        <p class="textRight">已有账号？<a href="javascript:;" class="colMint">马上登录</a>　</p>
+        <p class="colWarning textCenter" style="display: none;">正在注册中...</p>
+    </div>
+
+    {%endif%}
+    <div class="rightBox">
+        <div class="title"><span>社区</span></div>
+        <p><a href="" target="_blank" class="colDanger">百度一下</a></p>
+        <p><a href="" target="_blank" class="colDanger">你就知道</a></p>
+    </div>
+    </div>
+</main>
+
+<div class="copyright textCenter">Copyright © baidu.com 版权所有 | 京xxx备xxxxxxxxx号</div>
+
+<script>
+    $("#messageBtn").on("click",function () {
+        $.ajax({
+            type:"POST",
+            url:"/api/comment/post",
+            data:{
+                contentid:$("#contentId").val(),
+                content:$("#messageContent").val()
+            },
+            success:function (msg) {
+                alert(msg.msg);
+                location.reload();
+            }
+        });
+    })
+</script>
+</body>
+</html>
