@@ -170,6 +170,8 @@ nav .menu a {
   height: 56px;
   line-height: 56px;
   text-decoration: none;
+  color:#000;
+  cursor: pointer;
 }
 nav .menu a:hover, nav .menu a.focus {
   margin-bottom: -2px;
@@ -331,6 +333,7 @@ main .mainRight .rightBox .line button {
 main .mainRight .rightBox .line em {
   display: none;
 }
+
 dfn {
   text-align: left;
   font-style: normal;

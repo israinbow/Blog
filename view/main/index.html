@@ -79,12 +79,12 @@
             {% if userInfo.isAdmin %}
             <p class="adminInfo">
                 <p class="colDanger">您好，管理员！</p>
-                <a href="/admin">进入管理界面</a>
+                <a href="/admin" style="color:#46b9d8">进入管理界面</a>
             </p>
             {% else %}
             <p><span class="colDanger">你好，欢迎光临我的博客！</span></p>
             {%endif%}
-            <p><span class="colDark"><a href="javascript:;" id="logout">退出</a></span></p>
+            <p><span class="colDark"><a href="javascript:;" id="logout"style="color:#46b9d8">退出</a></span></p>
         </div>
         {% else %}
         <div class="rightBox" id="loginBox">
@@ -108,8 +108,8 @@
         {%endif%}
         <div class="rightBox">
             <div class="title"><span>社区</span></div>
-            <p><a href="" target="_blank" class="colDanger">百度一下</a></p>
-            <p><a href="" target="_blank" class="colDanger">你就知道</a></p>
+            <p><a href="http://www.baidu.com"class="colDanger">百度一下,你就知道</a></p>
+            <p><a href="http://www.csdn.net"class="colDanger">CSDN.NET</a></p>
         </div>
     </div>
 </main>
